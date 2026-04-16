@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>✨ Wedding Timeline · Ricevimento ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', system-ui, -apple-system, sans-serif;
+      background: #0b0b0b; /* nero profondo */
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 10px 0 30px;
+      margin: 0;
+    }
+
+    /* Mobile-first card: elegante, bordi dorati, sfondo bianco crema */
+    .app-container {
+      max-width: 500px;
+      width: 100%;
+      background: #fefcf0; /* bianco caldo */
+      border-radius: 36px 36px 28px 28px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.5), 0 0 0 2px #c9a84c inset; /* oro opaco */
+      padding: 22px 18px 28px;
+      margin: 8px 10px;
+      border: 1px solid #e4cf9e;
+    }
+
+    /* TITOLO E INTESTAZIONE */
+    h1 {
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1e1e1e;
+      font-size: 1.7rem;
+      margin-bottom: 6px;
+      text-align: center;
+      border-bottom: 2px solid #c9a84c;
+      padding-bottom: 10px;
+    }
+
+    .gold-accent {
+      color: #a88732;
+      font-weight: 400;
+    }
+
+    .header-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 60px;
+      padding: 4px 18px;
+      border: 1px solid #d4b97a;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .input-row label {
+      width: 65px;
+      font-weight: 500;
+      color: #2b2b2b;
+      font-size: 0.9rem;
+    }
+
+    .input-row input {
+      flex: 1;
+      border: none;
+      padding: 14px 0 14px 8px;
+      font-size: 1.1rem;
+      background: transparent;
+      outline: none;
+      color: #111;
+      font-weight: 400;
+    }
+
+    .input-row input::placeholder {
+      color: #9a8c6e;
+      font-weight: 300;
+    }
+
+    /* SEZIONI */
+    .section-title {
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin: 18px 0 10px 4px;
+      color: #1e1e1e;
+      border-left: 8px solid #c9a84c;
+      padding-left: 16px;
+      letter-spacing: 0.3px;
+    }
+
+    /* GRIGLIA PULSANTI GRANDI — ottimizzati per pollice */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px 10px;
+      margin-bottom: 8px;
+    }
+
+    /* pulsanti principali grandi */
+    .btn-timestamp {
+      background: #ffffff;
+      border: 1.5px solid #bba15a;
+      color: #1a1a1a;
+      padding: 16px 6px;
+      border-radius: 48px;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 4px 0 #7a6a3e, 0 3px 8px rgba(0,0,0,0.08);
+      transition: all 0.08s;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      backdrop-filter: blur(4px);
+      background: rgba(255, 252, 240, 0.9);
+      letter-spacing: 0.3px;
+    }
+
+    .btn-timestamp:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #7a6a3e, 0 2px 6px rgba(0,0,0,0.1);
+      background: #f5eedb;
+    }
+
+    /* extra row per 3 pulsanti */
+    .extra-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0 8px;
+    }
+
+    .btn-extra {
+      flex: 1 0 calc(33% - 10px);
+      background: #ffffff;
+      border: 1.5px solid #bba15a;
+      color: #111;
+      padding: 16px 4px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 3px 0 #7a6a3e;
+      cursor: pointer;
+      transition: 0.08s;
+      min-width: 100px;
+    }
+
+    .btn-extra:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #7a6a3e;
+      background: #f5eedb;
+    }
+
+    /* foto selector */
+    .photo-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background: white;
+      padding: 10px 18px;
+      border-radius: 60px;
+      margin: 10px 0 6px;
+      border: 1px solid #d4b97a;
+    }
+
+    .photo-toggle span {
+      font-weight: 500;
+      margin-right: 20px;
+      color: #1e1e1e;
+    }
+
+    .toggle-btn {
+      background: #eee7d5;
+      border: 1px solid #bba15a;
+      padding: 10px 26px;
+      border-radius: 40px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: 0.1s;
+      color: #1a1a1a;
+    }
+
+    .toggle-btn.active {
+      background: #c9a84c;
+      color: #0b0b0b;
+      border-color: #7a6a3e;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* TABELLA TIMESTAMP */
+    .timeline-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 10px;
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      border: 1px solid #dac48b;
+    }
+
+    .timeline-table th {
+      background: #1e1e1e;
+      color: #f0e2c0;
+      font-weight: 400;
+      padding: 14px 6px;
+      font-size: 0.9rem;
+      text-align: left;
+      padding-left: 14px;
+    }
+
+    .timeline-table td {
+      padding: 12px 6px 12px 14px;
+      border-bottom: 1px solid #eedbba;
+      color: #1e1e1e;
+      font-weight: 500;
+      background: #fffdf6;
+    }
+
+    .timeline-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Area note */
+    .notes-area {
+      width: 100%;
+      margin: 15px 0 20px;
+      padding: 16px 18px;
+      font-size: 1rem;
+      border-radius: 28px;
+      border: 1.5px solid #bba15a;
+      background: white;
+      resize: vertical;
+      font-family: inherit;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    /* action buttons: report e reset */
+    .action-bar {
+      display: flex;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .btn-report, .btn-reset {
+      flex: 1;
+      padding: 18px 6px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      border: none;
+      background: #1e1e1e;
+      color: #f2e2ba;
+      border: 1px solid #c9a84c;
+      box-shadow: 0 5px 0 #0b0b0b;
+      cursor: pointer;
+      transition: 0.08s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-reset {
+      background: #2a2a2a;
+      color: #e0cba4;
+    }
+
+    .btn-report:active, .btn-reset:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #0b0b0b;
+    }
+
+    .footer-note {
+      color: #7a6e52;
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.8rem;
+    }
+
+    /* per stampe / PDF */
+    @media print {
+      body { background: white; padding: 0; }
+      .app-container { box-shadow: none; border: 1px solid #000; max-width: 100%; background: white; }
+      .btn-timestamp, .btn-extra, .btn-report, .btn-reset, .photo-toggle, .input-row input, 
+      .action-bar, .extra-row, .button-grid, .photo-toggle, .section-title + div, .footer-note, h1 {
+        display: none !important;
+      }
+      .timeline-table, .notes-area, .header-fields {
+        display: block !important;
+      }
+      .header-fields input {
+        border: none;
+        background: transparent;
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+      .notes-area {
+        border: 1px solid black;
+        background: white;
+        box-shadow: none;
+      }
+      .timeline-table th {
+        background: #ddd !important;
+        color: black;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <h1>RICEVIMENTO <span class="gold-accent">TIMELINE</span></h1>
+  
+  <!-- Intestazione -->
+  <div class="header-fields">
+    <div class="input-row">
+      <label>👰🤵</label>
+      <input type="text" id="nomeSposi" placeholder="es. Anna & Marco" value="">
+    </div>
+    <div class="input-row">
+      <label>📅</label>
+      <input type="date" id="dataRicevimento" value="">
+    </div>
+  </div>
+
+  <!-- Pulsanti di registrazione principali (13 eventi) -->
+  <div class="section-title">⏱️ REGISTRA EVENTO</div>
+  <div class="button-grid" id="main-events-grid">
+    <!-- generati via js per pulizia, ma li scriviamo statici per chiarezza e localstorage binding -->
+  </div>
+
+  <!-- Sezione Foto: SÌ/NO -->
+  <div class="photo-toggle">
+    <span>📸 Foto scattate prima?</span>
+    <div id="fotoSi" class="toggle-btn active" data-value="si">SÌ</div>
+    <div id="fotoNo" class="toggle-btn" data-value="no">NO</div>
+  </div>
+
+  <!-- Portate Extra (3 pulsanti) -->
+  <div class="section-title">🍽️ PORTATE EXTRA</div>
+  <div class="extra-row">
+    <div class="btn-extra" data-extra="antipasto">Antipasto in Sala</div>
+    <div class="btn-extra" data-extra="secondoAgg">Secondo Aggiuntivo</div>
+    <div class="btn-extra" data-extra="frutta">Frutta/Pre-dessert</div>
+  </div>
+
+  <!-- Tabella Timestamps -->
+  <table class="timeline-table" id="timelineTable">
+    <thead>
+      <tr><th>Evento</th><th>Orario (HH:MM:SS)</th></tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- popolato da js -->
+    </tbody>
+  </table>
+
+  <!-- Note -->
+  <textarea id="noteField" class="notes-area" rows="3" placeholder="✍️ Note, problematiche, imprevisti..."></textarea>
+
+  <!-- Action Buttons -->
+  <div class="action-bar">
+    <button class="btn-report" id="generateReportBtn">📄 GENERA PDF / STAMPA</button>
+    <button class="btn-reset" id="resetBtn">🗑️ AZZERA SCHEDA</button>
+  </div>
+  <div class="footer-note">tocca per registrare · dati salvati automaticamente</div>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // -------------------- CONFIGURAZIONE EVENTI --------------------
+    const EVENT_KEYS = [
+      "Arrivo Ospiti", "Arrivo Sposi", "Brindisi Sposi", "Avvio Buffet",
+      "Ingresso in Sala", "Ingresso Sposi in Sala", "Servizio Primo Mare",
+      "Servizio Primo Terra", "Foto", "Balli", "Servizio Secondo",
+      "Taglio Torta", "Buffet Dolci"
+    ];
+
+    // Extra (verranno aggiunti alla tabella se registrati)
+    const EXTRA_LABELS = {
+      antipasto: "Antipasto in Sala",
+      secondoAgg: "Secondo Aggiuntivo",
+      frutta: "Frutta/Pre-dessert"
+    };
+
+    // -------------------- STATO --------------------
+    let timestamps = {};         // chiave: label -> "HH:MM:SS" o ""
+    let fotoPrima = "si";        // 'si' o 'no'
+    let nomeSposi = "";
+    let dataRicevimento = "";
+    let noteText = "";
+
+    // DOM elements
+    const nomeInput = document.getElementById('nomeSposi');
+    const dataInput = document.getElementById('dataRicevimento');
+    const tableBody = document.getElementById('tableBody');
+    const noteField = document.getElementById('noteField');
+    const fotoSi = document.getElementById('fotoSi');
+    const fotoNo = document.getElementById('fotoNo');
+    const mainGrid = document.getElementById('main-events-grid');
+    const resetBtn = document.getElementById('resetBtn');
+    const reportBtn = document.getElementById('generateReportBtn');
+
+    // -------------------- INIZIALIZZA GRIGLIA PRINCIPALE (dinamica) --------------------
+    function buildMainButtons() {
+      mainGrid.innerHTML = '';
+      EVENT_KEYS.forEach(eventLabel => {
+        const btn = document.createElement('div');
+        btn.className = 'btn-timestamp';
+        btn.textContent = eventLabel;
+        btn.setAttribute('data-event', eventLabel);
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          registerTimestamp(eventLabel);
+        });
+        mainGrid.appendChild(btn);
+      });
+    }
+    buildMainButtons();
+
+    // Aggiungi listener extra buttons
+    document.querySelectorAll('.btn-extra').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const extraType = btn.getAttribute('data-extra');
+        const label = EXTRA_LABELS[extraType];
+        if (label) registerTimestamp(label);
+      });
+    });
+
+    // Toggle foto Sì/No
+    function setFotoPrima(value) {
+      fotoPrima = value;
+      if (value === 'si') {
+        fotoSi.classList.add('active');
+        fotoNo.classList.remove('active');
+      } else {
+        fotoNo.classList.add('active');
+        fotoSi.classList.remove('active');
+      }
+      saveToLocalStorage();
+    }
+
+    fotoSi.addEventListener('click', () => setFotoPrima('si'));
+    fotoNo.addEventListener('click', () => setFotoPrima('no'));
+
+    // -------------------- FUNZIONE REGISTRA TIMESTAMP --------------------
+    function registerTimestamp(eventLabel) {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      const timeStr = `${hh}:${mm}:${ss}`;
+      
+      timestamps[eventLabel] = timeStr;
+      renderTable();
+      saveToLocalStorage();
+    }
+
+    // -------------------- RENDER TABELLA --------------------
+    function renderTable() {
+      // Raccoglie tutte le chiavi (principali + extra eventualmente registrate)
+      const allKeys = [...EVENT_KEYS];
+      // aggiungiamo extra se hanno timestamp (per mostrare ordine coerente)
+      Object.keys(EXTRA_LABELS).forEach(k => {
+        const label = EXTRA_LABELS[k];
+        if (timestamps.hasOwnProperty(label) && !allKeys.includes(label)) {
+          allKeys.push(label);
+        }
+      });
+      // ordiniamo secondo l'ordine di inserimento? meglio mantenere ordine EVENT_KEYS + extra in coda
+      // ma per chiarezza usiamo ordine EVENT_KEYS + extra labels (se presenti)
+      const ordered = [...EVENT_KEYS];
+      // aggiungo extra se timestamp esiste
+      for (let extraKey in EXTRA_LABELS) {
+        const label = EXTRA_LABELS[extraKey];
+        if (timestamps[label] && !ordered.includes(label)) ordered.push(label);
+      }
+
+      let html = '';
+      ordered.forEach(label => {
+        const timeVal = timestamps[label] || '--:--:--';
+        html += `<tr><td>${label}</td><td>${timeVal}</td></tr>`;
+      });
+      tableBody.innerHTML = html;
+    }
+
+    // -------------------- LOCALSTORAGE --------------------
+    const STORAGE_KEY = 'weddingTimeline_v1';
+
+    function saveToLocalStorage() {
+      const data = {
+        nomeSposi: nomeInput.value,
+        dataRicevimento: dataInput.value,
+        timestamps: timestamps,
+        fotoPrima: fotoPrima,
+        note: noteField.value,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        // valori di default vuoti
+        timestamps = {};
+        fotoPrima = 'si';
+        setFotoPrima('si');
+        renderTable();
+        return;
+      }
+      try {
+        const parsed = JSON.parse(saved);
+        nomeInput.value = parsed.nomeSposi || '';
+        dataInput.value = parsed.dataRicevimento || '';
+        timestamps = parsed.timestamps || {};
+        fotoPrima = parsed.fotoPrima || 'si';
+        setFotoPrima(fotoPrima);
+        noteField.value = parsed.note || '';
+        renderTable();
+      } catch (e) {
+        console.warn("errore parse localStorage");
+        timestamps = {};
+        renderTable();
+      }
+    }
+
+    // salva automaticamente ad ogni modifica input/note
+    nomeInput.addEventListener('input', saveToLocalStorage);
+    dataInput.addEventListener('change', saveToLocalStorage);
+    noteField.addEventListener('input', saveToLocalStorage);
+
+    // -------------------- RESET CON CONFERMA --------------------
+    function resetAll() {
+      if (!confirm('⚠️ Azzerare completamente la scheda? Tutti i dati andranno persi.')) return;
+      
+      // pulizia stato
+      timestamps = {};
+      fotoPrima = 'si';
+      setFotoPrima('si');
+      nomeInput.value = '';
+      dataInput.value = '';
+      noteField.value = '';
+      renderTable();
+      saveToLocalStorage();  // sovrascrive con pulito
+    }
+
+    resetBtn.addEventListener('click', resetAll);
+
+    // -------------------- GENERA REPORT / STAMPA (formattato A4) --------------------
+    function generatePrintableReport() {
+      // prepariamo i dati attuali
+      const nome = nomeInput.value.trim() || '______';
+      const dataEv = dataInput.value || '________';
+      const fotoStatus = (fotoPrima === 'si') ? '✅ Sì, foto scattate prima' : '❌ No, foto da scattare';
+      
+      // costruzione tabella per stampa
+      const ordered = [...EVENT_KEYS];
+      for (let extraKey in EXTRA_LABELS) {
+        const label = EXTRA_LABELS[extraKey];
+        if (timestamps[label] && !ordered.includes(label)) ordered.push(label);
+      }
+
+      let tableRows = '';
+      ordered.forEach(ev => {
+        const time = timestamps[ev] || '--:--:--';
+        tableRows += `<tr><td style="padding:10px; border-bottom:1px solid #ccc;">${ev}</td><td style="padding:10px; border-bottom:1px solid #ccc;">${time}</td></tr>`;
+      });
+
+      const noteContent = noteField.value || 'Nessuna nota.';
+
+      // costruiamo una finestra per stampa
+      const printWindow = window.open('', '_blank', 'width=900,height=700');
+      if (!printWindow) {
+        alert('Permetti popup per generare il report.');
+        return;
+      }
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Report Ricevimento · ${nome}</title>
+          <style>
+            body { font-family: 'Segoe UI', 'Helvetica', sans-serif; margin: 2cm 1.5cm; background: white; color: #111; }
+            .report-container { max-width: 100%; }
+            h1 { font-weight: 400; border-bottom: 3px solid #c9a84c; padding-bottom: 8px; }
+            .header-info { font-size: 1.3rem; margin: 20px 0; }
+            .gold { color: #a07d2e; }
+            table { width: 100%; border-collapse: collapse; margin: 30px 0; border: 1px solid #222; }
+            th { background: #1e1e1e; color: #f0e2c0; padding: 12px; text-align: left; }
+            td { padding: 10px; border-bottom: 1px solid #aaa; }
+            .foto-box { background: #f8f3e6; padding: 14px; border-radius: 12px; margin: 20px 0; }
+            .notes-box { margin-top: 30px; border: 1px solid #c9a84c; padding: 20px; border-radius: 16px; }
+            @media print { body { margin: 1.5cm; } }
+          </style>
+        </head>
+        <body>
+          <div class="report-container">
+            <h1>🍾 REPORT RICEVIMENTO <span class="gold">${nome}</span></h1>
+            <div class="header-info"><strong>Data:</strong> ${dataEv} &nbsp;|&nbsp; <strong>Foto prima:</strong> ${fotoStatus}</div>
+            <table>
+              <thead><tr><th>Evento</th><th>Orario registrato</th></tr></thead>
+              <tbody>${tableRows}</tbody>
+            </table>
+            <div class="foto-box">📷 Selettore foto: ${fotoPrima === 'si' ? 'Sì' : 'No'} (prima del log)</div>
+            <div class="notes-box"><strong>✍️ Note / Problematiche:</strong><br><br>${noteContent.replace(/\n/g, '<br>')}</div>
+            <p style="margin-top:40px; text-align:right; color:#7a6e52;">Firma: __________________</p>
+          </div>
+          <script>window.onload=function(){ window.print(); };</script>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
+
+    reportBtn.addEventListener('click', generatePrintableReport);
+
+    // -------------------- INIZIALIZZA: carica localStorage e render --------------------
+    loadFromLocalStorage();
+    
+    // Se data vuota, suggerisci oggi?
+    if (!dataInput.value) {
+      const today = new Date().toISOString().split('T')[0];
+      dataInput.value = today;
+      saveToLocalStorage();
+    }
+
+    // Assicura che la tabella rifletta lo stato (anche per extra)
+    window.addEventListener('load', function() {
+      renderTable();
+    });
+
+  })();
+</script>
+</body>
+</html>
